@@ -3,13 +3,11 @@ package list
 import (
 	"encoding/json"
 	"os"
-	"strconv"
 )
 
 type Item struct {
-	Text     string
-	position int
-	Done     bool
+	Text string
+	Done bool
 }
 
 type ByPri []Item
@@ -38,15 +36,22 @@ func ReadItems(filename string) ([]Item, error) {
 		return []Item{}, err
 	}
 
-	for i := range items {
-		items[i].position = i + 1
-	}
-
 	return items, nil
 }
 
-func (i *Item) Label() string {
-	return strconv.Itoa(i.position) + "."
+func ClearItems(filename string) error {
+	items := []Item{}
+	b, err := json.Marshal(items)
+	if err != nil {
+		return err
+	}
+
+	err = os.WriteFile(filename, b, 0644)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (i *Item) PrettyDone() string {
@@ -69,5 +74,5 @@ func (s ByPri) Less(i, j int) bool {
 		return s[j].Done
 	}
 
-	return s[i].position < s[j].position
+	return true
 }
