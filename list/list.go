@@ -2,7 +2,10 @@ package list
 
 import (
 	"encoding/json"
+	"errors"
+	"fmt"
 	"os"
+	"sort"
 )
 
 type Item struct {
@@ -52,6 +55,21 @@ func ClearItems(filename string) error {
 	}
 
 	return nil
+}
+
+func ToggleChecked(filename string, i int, checked bool) error {
+	items, _ := ReadItems(filename)
+
+	if i > 0 && i <= len(items) {
+		items[i-1].Done = checked
+		fmt.Printf("%q %v\n", items[i-1].Text, "marked done")
+
+		sort.Sort(ByPri(items))
+		SaveItems(filename, items)
+		return nil
+	} else {
+		return errors.New("no item found in position")
+	}
 }
 
 func (i *Item) PrettyDone() string {

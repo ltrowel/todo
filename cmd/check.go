@@ -4,9 +4,7 @@ Copyright © 2024 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"fmt"
 	"log"
-	"sort"
 	"strconv"
 
 	"github.com/ltrowel/todo/list"
@@ -24,21 +22,17 @@ var checkCmd = &cobra.Command{
 }
 
 func checkRun(cmd *cobra.Command, args []string) {
-	items, _ := list.ReadItems(viper.GetString("datafile"))
-	i, err := strconv.Atoi(args[0])
+	filename := viper.GetString("datafile")
+	position, err := strconv.Atoi(args[0])
 
 	if err != nil {
-		log.Fatalln(args[0], "is not a valid label\n", err)
+		log.Fatalln(position, "is not a valid label\n", err)
 	}
 
-	if i > 0 && i <= len(items) {
-		items[i-1].Done = true
-		fmt.Printf("%q %v\n", items[i-1].Text, "marked done")
+	err = list.ToggleChecked(filename, position, true)
 
-		sort.Sort(list.ByPri(items))
-		list.SaveItems(viper.GetString("datafile"), items)
-	} else {
-		log.Println(i, "doesn't match any items")
+	if err != nil {
+		log.Fatalln(err, position)
 	}
 }
 
