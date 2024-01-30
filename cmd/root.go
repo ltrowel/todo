@@ -1,5 +1,5 @@
 /*
-Copyright © 2024 Liam Trowel
+Copyright © 2024 LIAM TROWEL <trowel.liam@gmail.com>
 */
 package cmd
 
@@ -22,9 +22,6 @@ var rootCmd = &cobra.Command{
 	Use:   "todo",
 	Short: "A To-Do application",
 	Long:  `To-Do application to help organize, keep track, and complete any and all tasks.`,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	// Run: func(cmd *cobra.Command, args []string) { },
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
