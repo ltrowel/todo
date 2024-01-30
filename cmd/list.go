@@ -12,6 +12,7 @@ import (
 
 	"github.com/ltrowel/todo/list"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 var doneOpt bool
@@ -26,7 +27,7 @@ var listCmd = &cobra.Command{
 }
 
 func listRun(cmd *cobra.Command, args []string) {
-	items, err := list.ReadItems(dataFile)
+	items, err := list.ReadItems(viper.GetString("datafile"))
 
 	if err != nil {
 		log.Printf("%v", err)

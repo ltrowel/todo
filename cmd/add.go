@@ -8,6 +8,7 @@ import (
 
 	"github.com/ltrowel/todo/list"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 var priority int
@@ -21,7 +22,7 @@ var addCmd = &cobra.Command{
 }
 
 func addRun(cmd *cobra.Command, args []string) {
-	items, err := list.ReadItems(dataFile)
+	items, err := list.ReadItems(viper.GetString("datafile"))
 
 	if err != nil {
 		log.Printf("%v", err)
@@ -33,7 +34,7 @@ func addRun(cmd *cobra.Command, args []string) {
 		items = append(items, item)
 	}
 
-	err = list.SaveItems(dataFile, items)
+	err = list.SaveItems(viper.GetString("datafile"), items)
 
 	if err != nil {
 		log.Printf("%v", err)

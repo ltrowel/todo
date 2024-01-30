@@ -71,6 +71,7 @@ func initConfig() {
 		viper.AddConfigPath(home)
 		viper.SetConfigType("yaml")
 		viper.SetConfigName(".todo")
+		viper.SetEnvPrefix("todo")
 	}
 
 	viper.AutomaticEnv() // read in environment variables that match
