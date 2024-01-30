@@ -73,9 +73,9 @@ func (i *Item) Label() string {
 
 func (i *Item) PrettyDone() string {
 	if i.Done {
-		return "X"
+		return "☑"
 	}
-	return ""
+	return "☐"
 }
 
 func (s ByPri) Len() int {
