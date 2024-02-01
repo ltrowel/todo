@@ -27,7 +27,7 @@ func addRun(cmd *cobra.Command, args []string) {
 	}
 
 	for _, x := range args {
-		item := list.Item{Text: x}
+		item := list.Item{ID: len(items) + 1, Text: x}
 		items = append(items, item)
 	}
 

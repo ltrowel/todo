@@ -6,9 +6,11 @@ import (
 	"fmt"
 	"os"
 	"sort"
+	"strconv"
 )
 
 type Item struct {
+	ID   int
 	Text string
 	Done bool
 }
@@ -72,6 +74,10 @@ func ToggleChecked(filename string, i int, checked bool) error {
 	}
 }
 
+func (i *Item) Label() string {
+	return strconv.Itoa(i.ID) + " - "
+}
+
 func (i *Item) PrettyDone() string {
 	if i.Done {
 		return "☑"
@@ -92,5 +98,5 @@ func (s ByPri) Less(i, j int) bool {
 		return s[j].Done
 	}
 
-	return true
+	return s[i].ID < s[j].ID
 }
