@@ -10,9 +10,10 @@ import (
 )
 
 type Item struct {
-	ID   int
-	Text string
-	Done bool
+	ID       int
+	Text     string
+	Done     bool
+	position int
 }
 
 type ByPri []Item
@@ -41,6 +42,12 @@ func ReadItems(filename string) ([]Item, error) {
 		return []Item{}, err
 	}
 
+	sort.Sort(ByPri(items))
+
+	for i := range items {
+		items[i].position = i + 1
+	}
+
 	return items, nil
 }
 
@@ -66,7 +73,6 @@ func ToggleChecked(filename string, i int, checked bool) error {
 		items[i-1].Done = checked
 		fmt.Printf("%q %v\n", items[i-1].Text, "marked done")
 
-		sort.Sort(ByPri(items))
 		SaveItems(filename, items)
 		return nil
 	} else {
@@ -75,7 +81,7 @@ func ToggleChecked(filename string, i int, checked bool) error {
 }
 
 func (i *Item) Label() string {
-	return strconv.Itoa(i.ID) + " - "
+	return strconv.Itoa(i.position) + " - "
 }
 
 func (i *Item) PrettyDone() string {
